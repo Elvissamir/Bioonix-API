@@ -1,5 +1,6 @@
 import express, { Application, NextFunction, Request, Response, Router } from 'express'
 import { Server } from 'http'
+import environment from './services/environment/Environment'
 import 'express-async-errors'
 
 interface AppI {

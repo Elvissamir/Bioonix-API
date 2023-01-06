@@ -1,0 +1,1 @@
+export type EnvType = 'DEV' | 'PROD' | 'TEST'
