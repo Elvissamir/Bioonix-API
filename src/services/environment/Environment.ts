@@ -14,17 +14,10 @@ class Environment implements EnvironmentI {
         else if (process.env.NODE_ENV === 'prod') this.envType = 'PROD'
         else if (process.env.NODE_ENV === 'test') this.envType = 'TEST'
         else throw new Error('Error: Unknown Environment, NODE_ENV should be: dev | prod | test')
-
-        this.checkEnvironment()
     }
 
     getValue(variableName: string) {
         return process.env[variableName]
-    }
-
-    checkEnvironment() {
-        if (!this.getValue(`${this.envType}_JWT_SECRET_KEY`))
-            throw new Error(`Error: The JWT_SECRET_KEY is not set for the current environment: ${this.envType}.`)
     }
 }
 
