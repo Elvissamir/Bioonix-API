@@ -2,6 +2,7 @@ import express, { Application, NextFunction, Request, Response, Router } from 'e
 import { Server } from 'http'
 import environment from './services/environment/Environment'
 import 'express-async-errors'
+import Logger from './services/logger'
 
 interface AppI {
     server: Server | null
