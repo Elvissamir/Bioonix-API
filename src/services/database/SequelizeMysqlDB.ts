@@ -1,4 +1,5 @@
 import { Dialect, Sequelize } from "sequelize";
+import customerFactory from "../../customer/core/customerFactory";
 import environment from "../environment/Environment";
 import Logger from "../logger";
 import { DBHandlerI, DBModelI } from "./db.interface";
@@ -29,14 +30,15 @@ class SequelizeDBHandler implements DBHandlerI {
     private init() {
         this.dbConnection = new Sequelize(this.dbName, this.dbUser, this.dbPassword, {
             host: this.dbHost,
-            dialect: this.dbDriver
+            dialect: this.dbDriver,
+            logging: false
         })
     }
 
     private async loadModels(dbModels: any[]) {
         if (this.dbConnection) {
             for (let dbModel of dbModels) {
-                console.log(dbModel.load(this.dbConnection))
+                dbModel.load(this.dbConnection)
             }
         }
     }
@@ -55,6 +57,14 @@ class SequelizeDBHandler implements DBHandlerI {
                 await this.loadModels(dbModels)
 
                 Logger.info(`DB: Connected to MYSQL using ${this.dbName} ${this.dbUser} ${this.dbHost} ${this.dbDriver}`)
+
+                Logger.info('DB: Loading customers data...')
+                const customers = await customerFactory({ count: 10 })
+                
+                for (let customer of customers) {
+                    const { id, first_name, last_name, company } = customer
+                    Logger.info(`Id: ${id} Name: ${first_name} ${last_name}, company: ${company}`)
+                }
             }
         }
         catch (ex) {

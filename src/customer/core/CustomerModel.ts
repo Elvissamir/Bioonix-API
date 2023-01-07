@@ -1,5 +1,7 @@
 import { DataTypes, InitOptions, Model, ModelAttributes, Optional, Sequelize } from "sequelize"
 import environment from "../../services/environment/Environment"
+import Logger from "../../services/logger"
+import customerFactory from "./customerFactory"
 
 interface CustomerAttributes {
     id: number 
