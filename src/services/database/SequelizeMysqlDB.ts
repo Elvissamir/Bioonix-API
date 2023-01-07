@@ -1,0 +1,58 @@
+import { Dialect, Sequelize } from "sequelize";
+import environment from "../environment/Environment";
+import Logger from "../logger";
+import { DBHandlerI } from "./db.interface";
+
+class SequelizeDBHandler implements DBHandlerI {
+    private readonly dbName: string 
+    private readonly dbUser: string 
+    private readonly dbHost: string 
+    private readonly dbDriver: Dialect
+    private readonly dbPassword: string 
+    private dbConnection: Sequelize | null
+
+    constructor() {
+        this.dbName = environment.getValue('DB_NAME') as string
+        this.dbUser = environment.getValue('DB_USER') as string 
+        this.dbHost = environment.getValue('DB_HOST') as string 
+        this.dbDriver = environment.getValue('DB_DRIVER') as Dialect
+        this.dbPassword = environment.getValue('DB_PASSWORD') as string
+
+        if (this.dbName === undefined) throw new Error('ERROR: .ENV Does not have a DB_NAME variable')
+        if (this.dbUser === undefined) throw new Error('ERROR: .ENV Does not have a DB_USER variable')
+        if (this.dbHost === undefined) throw new Error('ERROR: .ENV Does not have a DB_HOST variable')
+        if (this.dbDriver === undefined) throw new Error('ERROR: .ENV Does not have a DB_DRIVER variable')
+        if (this.dbPassword === undefined) throw new Error('ERROR: .ENV Does not have a DB_PASSWORD variable')
+
+        this.dbConnection = null
+        this.init()
+    }
+
+    init() {
+        this.dbConnection = new Sequelize(this.dbName, this.dbUser, this.dbPassword, {
+            host: this.dbHost,
+            dialect: this.dbDriver
+        })
+    }
+
+    async connect() {
+        try {
+            if (this.dbConnection) {
+                await this.dbConnection.authenticate()
+                Logger.info(`DB: Connected to MYSQL using ${this.dbName} ${this.dbUser} ${this.dbHost} ${this.dbDriver}`)
+            }
+        }
+        catch (ex) {
+            if (ex instanceof Error) {
+                const message = `DB ERROR: Could not authenticate and connect to MYSQL ${ex.message}`
+                Logger.error(message)
+
+                throw new Error(message)
+            }
+        }
+    }
+}
+
+const SequelizeMysqlDB = new SequelizeDBHandler()
+
+export default SequelizeMysqlDB
