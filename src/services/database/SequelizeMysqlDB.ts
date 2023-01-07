@@ -1,7 +1,7 @@
 import { Dialect, Sequelize } from "sequelize";
 import environment from "../environment/Environment";
 import Logger from "../logger";
-import { DBHandlerI } from "./db.interface";
+import { DBHandlerI, DBModelI } from "./db.interface";
 
 class SequelizeDBHandler implements DBHandlerI {
     private readonly dbName: string 
@@ -19,11 +19,11 @@ class SequelizeDBHandler implements DBHandlerI {
         this.dbPassword = environment.getValue('DB_PASSWORD') as string
         this.dbConnection = null
 
-        if (this.dbName === undefined) throw new Error('ERROR: .ENV Does not have a DB_NAME variable')
-        if (this.dbUser === undefined) throw new Error('ERROR: .ENV Does not have a DB_USER variable')
-        if (this.dbHost === undefined) throw new Error('ERROR: .ENV Does not have a DB_HOST variable')
-        if (this.dbDriver === undefined) throw new Error('ERROR: .ENV Does not have a DB_DRIVER variable')
-        if (this.dbPassword === undefined) throw new Error('ERROR: .ENV Does not have a DB_PASSWORD variable')
+        if (this.dbName === undefined) throw new Error('ERROR: .env Does not have a DB_NAME variable')
+        if (this.dbUser === undefined) throw new Error('ERROR: .env Does not have a DB_USER variable')
+        if (this.dbHost === undefined) throw new Error('ERROR: .env Does not have a DB_HOST variable')
+        if (this.dbDriver === undefined) throw new Error('ERROR: .env Does not have a DB_DRIVER variable')
+        if (this.dbPassword === undefined) throw new Error('ERROR: .env Does not have a DB_PASSWORD variable')
     }
 
     private init() {
@@ -41,7 +41,7 @@ class SequelizeDBHandler implements DBHandlerI {
         }
     }
 
-    async connect(dbModels: any[]) {
+    async connect(dbModels: DBModelI[]) {
         Logger.info('DB: Connect to MYSQL...')
         try {
             Logger.info('DB: Connecting to MYSQL...')
