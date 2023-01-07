@@ -1,9 +1,9 @@
-import CustomerModel from "../../customer/core/CustomerModel"
+import Customer from "../../customer/core/Customer"
 import { DBModelI } from "./db.interface"
 
 const getDBModels = () => {
     const models: DBModelI[] = [
-        CustomerModel
+        Customer
     ]
 
     return models

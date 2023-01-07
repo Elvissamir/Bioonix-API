@@ -5,4 +5,4 @@ const router = Router()
 
 router.get('/', customerGetAllController)
 
-export { router }
+export default router

@@ -6,4 +6,4 @@ router.get('/', (req: Request, res: Response) => {
     res.send('Prueba Desarrollador Bioonix')
 })
 
-export { router }
+export default router

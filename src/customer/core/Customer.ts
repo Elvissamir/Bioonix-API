@@ -1,7 +1,5 @@
 import { DataTypes, InitOptions, Model, ModelAttributes, Optional, Sequelize } from "sequelize"
 import environment from "../../services/environment/Environment"
-import Logger from "../../services/logger"
-import customerFactory from "./customerFactory"
 
 interface CustomerAttributes {
     id: number 
@@ -51,7 +49,7 @@ const modelOptions = (dbConnection: Sequelize): InitOptions =>  {
     }
 }
 
-class CustomerModel extends Model<CustomerAttributes, CustomerInput> implements CustomerAttributes {
+class Customer extends Model<CustomerAttributes, CustomerInput> implements CustomerAttributes {
     public id!: number
     public first_name!: string
     public last_name!: string
@@ -62,12 +60,12 @@ class CustomerModel extends Model<CustomerAttributes, CustomerInput> implements 
     public readonly updatedAt!: Date
 
     static async load(dbConnection: Sequelize) {
-        CustomerModel.init(modelAttributes, modelOptions(dbConnection))
+        Customer.init(modelAttributes, modelOptions(dbConnection))
 
-        await CustomerModel.sync({ 
-            alter: environment.envType === 'DEV' || environment.envType === 'TEST'
+        await Customer.sync({ 
+            alter: environment.envType === 'DEV' || environment.envType === 'TEST',
         })
     }
 }
 
-export default CustomerModel
+export default Customer

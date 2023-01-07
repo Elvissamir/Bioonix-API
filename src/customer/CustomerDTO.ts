@@ -1,8 +1,8 @@
-import CustomerModel from "./core/CustomerModel"
+import Customer from "./core/Customer"
 import { CustomerResource } from "./core/CustomerResource"
 
 class CustomerDTO {
-    static mapModelToResource(model: CustomerModel): CustomerResource {
+    static mapModelToResource(model: Customer): CustomerResource {
         const customerResource: CustomerResource = {
             id: model.id,
             first_name: model.first_name,
@@ -17,7 +17,7 @@ class CustomerDTO {
         return customerResource
     }
 
-    static mapModelListToResource(modelList: CustomerModel[]): CustomerResource[] {
+    static mapModelListToResource(modelList: Customer[]): CustomerResource[] {
         const customerResourceList: CustomerResource[] = modelList.map(model => {
             return this.mapModelToResource(model)
         })

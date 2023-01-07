@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker"
 import { CustomerData } from "./customer.interface"
-import CustomerModel from "./CustomerModel"
+import Customer from "./Customer"
 
 interface CustomerFactoryParams {
     count: number 
@@ -19,7 +19,7 @@ const customerFactory = async ({ count }: CustomerFactoryParams) => {
         })
     }
 
-    const customersList = await CustomerModel.bulkCreate(fakeDataList)
+    const customersList = await Customer.bulkCreate(fakeDataList)
 
     return customersList
 }

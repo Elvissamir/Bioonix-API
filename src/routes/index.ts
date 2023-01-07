@@ -1,28 +1,15 @@
 import { Router } from 'express'
-import { readdirSync } from 'fs'
 import Logger from '../services/logger'
-import environment from '../services/environment/Environment'
+import greeting from './greeting'
+import customers from './customers'
 
-const PATH = `${__dirname}`
 const router = Router()
 
-const cleanFileName = (fileName: string) => {
-    return fileName.split('.')[0]
-}
-
 const getRoutes = () => {
-    const dirContent = readdirSync(PATH)
-    const fileNameList = dirContent.map(fileName => cleanFileName(fileName))
-    const routeNamesList = fileNameList.filter(file => file !== 'index' && file !== 'appRoutes')
+    Logger.info('Loading routes...')
 
-    for(const routeName of routeNamesList) {
-        import(`./${routeName}`).then(moduleRouter => {
-            if (environment.envType !== 'TEST')
-                Logger.info(`Loading route api/${routeName}`)
-            
-            router.use(`/api/${routeName}`, moduleRouter.router)
-        })
-    }
+    router.use('/api/greeting', greeting)
+    router.use('/api/customers', customers)
 
     return router
 }

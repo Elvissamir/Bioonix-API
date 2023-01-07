@@ -1,7 +1,7 @@
-import CustomerModel from "../core/CustomerModel"
+import Customer from "../core/Customer"
 
 const getAllCustomers = async () => {
-    const customersList = await CustomerModel.findAll()
+    const customersList = await Customer.findAll()
 
     return customersList
 }

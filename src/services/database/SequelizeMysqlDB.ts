@@ -1,4 +1,5 @@
 import { Dialect, Sequelize } from "sequelize";
+import Customer from "../../customer/core/Customer";
 import customerFactory from "../../customer/core/customerFactory";
 import environment from "../environment/Environment";
 import Logger from "../logger";
@@ -43,6 +44,16 @@ class SequelizeDBHandler implements DBHandlerI {
         }
     }
 
+    private async loadTables() {
+        Logger.info('DB: Loading customers data...')
+        const customers = await customerFactory({ count: 10 })
+        
+        for (let customer of customers) {
+            const { id, first_name, last_name, company } = customer
+            Logger.info(`Id: ${id} Name: ${first_name} ${last_name}, company: ${company}`)
+        }
+    }
+
     async connect(dbModels: DBModelI[]) {
         Logger.info('DB: Connect to MYSQL...')
         try {
@@ -58,13 +69,7 @@ class SequelizeDBHandler implements DBHandlerI {
 
                 Logger.info(`DB: Connected to MYSQL using ${this.dbName} ${this.dbUser} ${this.dbHost} ${this.dbDriver}`)
 
-                Logger.info('DB: Loading customers data...')
-                const customers = await customerFactory({ count: 10 })
-                
-                for (let customer of customers) {
-                    const { id, first_name, last_name, company } = customer
-                    Logger.info(`Id: ${id} Name: ${first_name} ${last_name}, company: ${company}`)
-                }
+                await this.loadTables()
             }
         }
         catch (ex) {
