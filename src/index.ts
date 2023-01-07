@@ -1,4 +1,5 @@
 import 'dotenv/config'
-import { APP } from './startup'
+import { APP, DB } from './startup'
 
 APP.start()
+DB()

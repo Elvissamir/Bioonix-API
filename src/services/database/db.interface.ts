@@ -1,3 +1,3 @@
 export interface DBHandlerI {
-    connect: () => Promise<void>
+    connect: (options: any) => Promise<void>
 }

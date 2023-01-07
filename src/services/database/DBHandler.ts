@@ -1,11 +1,11 @@
 import { DBHandlerI } from "./db.interface";
 
 interface DBHandlerParams {
-    db: DBHandler
+    db: DBHandlerI
 }
 
 class DBHandler implements DBHandlerI {
-    private readonly db: DBHandler
+    private readonly db: DBHandlerI
 
     constructor({ db }: DBHandlerParams) {
         this.db = db

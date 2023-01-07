@@ -9,7 +9,7 @@ class SequelizeDBHandler implements DBHandlerI {
     private readonly dbHost: string 
     private readonly dbDriver: Dialect
     private readonly dbPassword: string 
-    private dbConnection: Sequelize | null
+    public dbConnection: Sequelize | null
 
     constructor() {
         this.dbName = environment.getValue('DB_NAME') as string
@@ -17,28 +17,43 @@ class SequelizeDBHandler implements DBHandlerI {
         this.dbHost = environment.getValue('DB_HOST') as string 
         this.dbDriver = environment.getValue('DB_DRIVER') as Dialect
         this.dbPassword = environment.getValue('DB_PASSWORD') as string
+        this.dbConnection = null
 
         if (this.dbName === undefined) throw new Error('ERROR: .ENV Does not have a DB_NAME variable')
         if (this.dbUser === undefined) throw new Error('ERROR: .ENV Does not have a DB_USER variable')
         if (this.dbHost === undefined) throw new Error('ERROR: .ENV Does not have a DB_HOST variable')
         if (this.dbDriver === undefined) throw new Error('ERROR: .ENV Does not have a DB_DRIVER variable')
         if (this.dbPassword === undefined) throw new Error('ERROR: .ENV Does not have a DB_PASSWORD variable')
-
-        this.dbConnection = null
-        this.init()
     }
 
-    init() {
+    private init() {
         this.dbConnection = new Sequelize(this.dbName, this.dbUser, this.dbPassword, {
             host: this.dbHost,
             dialect: this.dbDriver
         })
     }
 
-    async connect() {
+    private async loadModels(dbModels: any[]) {
+        if (this.dbConnection) {
+            for (let dbModel of dbModels) {
+                console.log(dbModel.load(this.dbConnection))
+            }
+        }
+    }
+
+    async connect(dbModels: any[]) {
+        Logger.info('DB: Connect to MYSQL...')
         try {
+            Logger.info('DB: Connecting to MYSQL...')
+            this.init()
+
             if (this.dbConnection) {
+                Logger.info('DB: Authenticating...')
                 await this.dbConnection.authenticate()
+
+                Logger.info('Loading models...')
+                await this.loadModels(dbModels)
+
                 Logger.info(`DB: Connected to MYSQL using ${this.dbName} ${this.dbUser} ${this.dbHost} ${this.dbDriver}`)
             }
         }
