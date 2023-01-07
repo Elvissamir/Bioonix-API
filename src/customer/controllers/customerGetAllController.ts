@@ -1,6 +1,7 @@
 import { Request, Response } from "express"
 import { StatusCodes } from "http-status-codes"
 import { CustomerResource } from "../core/CustomerResource"
+import CustomerDTO from "../CustomerDTO"
 import getAllCustomers from "../interactors/getAllCustomers"
 
 interface GetAllSuccessResponse {
@@ -9,9 +10,10 @@ interface GetAllSuccessResponse {
 }
 
 const customerGetAllController = async (req: Request, res: Response) => {
-    const allCustomers = await getAllCustomers()
+    const customersModelList = await getAllCustomers()
 
-    const responseData: GetAllSuccessResponse = { status: StatusCodes.OK, data: allCustomers }
+    const customerResourceList = CustomerDTO.mapModelListToResource(customersModelList)
+    const responseData: GetAllSuccessResponse = { status: StatusCodes.OK, data: customerResourceList }
     res.send(responseData)
 }
 
