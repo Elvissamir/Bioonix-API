@@ -13,7 +13,6 @@ interface CustomerAttributes {
 }
 
 export interface CustomerInput extends Optional<CustomerAttributes, 'id'> {}
-export interface CustomerOutput extends Required<CustomerAttributes> {}
 
 const modelAttributes: ModelAttributes = { 
     id: { 
