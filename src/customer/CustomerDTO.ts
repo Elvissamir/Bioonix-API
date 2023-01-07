@@ -16,6 +16,14 @@ class CustomerDTO {
 
         return customerResource
     }
+
+    static mapModelListToResource(modelList: CustomerModel[]): CustomerResource[] {
+        const customerResourceList: CustomerResource[] = modelList.map(model => {
+            return this.mapModelToResource(model)
+        })
+
+        return customerResourceList
+    }
 }
 
 export default CustomerDTO
