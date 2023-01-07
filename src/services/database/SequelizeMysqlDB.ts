@@ -1,5 +1,4 @@
 import { Dialect, Sequelize } from "sequelize";
-import Customer from "../../customer/core/Customer";
 import customerFactory from "../../customer/core/customerFactory";
 import environment from "../environment/Environment";
 import Logger from "../logger";
