@@ -21,6 +21,7 @@ DB_PASSWORD=123456
 
 - Se asume el puerto 3002 para la API y puerto 3000 para la UI en react
 - La UI se encuentra en: https://github.com/Elvissamir/BioonixUI
+- Las pruebas se realizaron con http://localhost:3002/api/customers
 
 ## ENDPOINTS
 - La API tiene 2 endpoints: 
