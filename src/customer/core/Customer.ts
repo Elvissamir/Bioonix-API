@@ -1,5 +1,5 @@
 import { DataTypes, InitOptions, Model, ModelAttributes, Optional, Sequelize } from "sequelize"
-import environment from "../../services/environment/Environment"
+import { dbConnection } from "../../services/database/SequelizeMysqlDB"
 
 interface CustomerAttributes {
     id: number 
@@ -58,14 +58,8 @@ class Customer extends Model<CustomerAttributes, CustomerInput> implements Custo
     public company!: string 
     public readonly createdAt!: Date
     public readonly updatedAt!: Date
-
-    static async load(dbConnection: Sequelize) {
-        Customer.init(modelAttributes, modelOptions(dbConnection))
-
-        await Customer.sync({ 
-            alter: environment.envType === 'DEV' || environment.envType === 'TEST',
-        })
-    }
 }
+
+Customer.init(modelAttributes, modelOptions(dbConnection))
 
 export default Customer
