@@ -2,6 +2,8 @@
 - Desarrollado con Nodejs, Sequelize, Mysql y Typescript
 
 ## PASOS PARA INICIAR
+1) Primero ejecutar: npm i 
+
 1) Crear DB
 
 - Se debe crear una base de datos con las variables en el .env, 
@@ -15,7 +17,7 @@ DB_HOST=localhost
 DB_DRIVER=mysql
 DB_PASSWORD=123456
 
-2) Iniciar con npm run dev
+2) Iniciar con: npm run dev
 
 - Se asume el puerto 3002 para la API y puerto 3000 para la UI en react
 - La UI se encuentra en: https://github.com/Elvissamir/BioonixUI
