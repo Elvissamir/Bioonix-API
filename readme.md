@@ -4,7 +4,7 @@
 ## PASOS PARA INICIAR
 1) Primero ejecutar: npm i 
 
-1) Crear DB
+2) Crear DB
 
 - Se debe crear una base de datos con las variables en el .env, 
 para esta API se asume la existencia de una DB con nombre: prueba_bioonix_ec.
@@ -17,7 +17,7 @@ DB_HOST=localhost
 DB_DRIVER=mysql
 DB_PASSWORD=123456
 
-2) Iniciar con: npm run dev
+3) Iniciar con: npm run dev
 
 - Se asume el puerto 3002 para la API y puerto 3000 para la UI en react
 - La UI se encuentra en: https://github.com/Elvissamir/BioonixUI
